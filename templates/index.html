@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Side Note</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f7;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1d1d1f;
+    }
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      padding: 48px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+    p.sub { color: #6e6e73; font-size: 14px; margin-bottom: 32px; }
+    .drop-zone {
+      border: 2px dashed #d2d2d7;
+      border-radius: 12px;
+      padding: 48px 24px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 24px;
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: #0071e3;
+      background: #f0f5ff;
+    }
+    .drop-zone .icon { font-size: 40px; margin-bottom: 12px; }
+    .drop-zone .label { font-size: 15px; color: #6e6e73; }
+    .drop-zone .filename {
+      font-size: 15px;
+      font-weight: 500;
+      color: #1d1d1f;
+      word-break: break-all;
+    }
+    input[type="file"] { display: none; }
+    .option-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .option-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #6e6e73;
+      margin-bottom: 6px;
+    }
+    .option-group select {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 15px;
+      border: 1.5px solid #d2d2d7;
+      border-radius: 8px;
+      background: #fff;
+      color: #1d1d1f;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236e6e73'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .option-group select:focus {
+      outline: none;
+      border-color: #0071e3;
+    }
+    button {
+      background: #0071e3;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    button:hover { background: #0062cc; }
+    button:disabled { background: #d2d2d7; cursor: not-allowed; }
+    .spinner {
+      display: none;
+      margin: 16px auto 0;
+      width: 28px; height: 28px;
+      border: 3px solid #d2d2d7;
+      border-top-color: #0071e3;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .status {
+      margin-top: 16px;
+      font-size: 14px;
+      color: #6e6e73;
+      min-height: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>PDF Side Note</h1>
+    <p class="sub">Upload a PDF to get a version with grid note space beside each slide.</p>
+    <form id="form" action="/convert" method="post" enctype="multipart/form-data">
+      <div class="drop-zone" id="dropZone">
+        <div class="icon">&#128196;</div>
+        <div class="label" id="dropLabel">Drop a PDF here or click to browse</div>
+      </div>
+      <input type="file" name="pdf" id="fileInput" accept=".pdf">
+      <div class="option-group">
+        <label for="gridStyle">Note style</label>
+        <select name="grid_style" id="gridStyle">
+          <option value="grid-5">Square grid — 5 mm</option>
+          <option value="grid-4">Square grid — 4 mm</option>
+          <option value="grid-3">Square grid — 3 mm</option>
+          <option value="grid-7">Square grid — 7 mm</option>
+          <option value="lines-7">Ruled lines — 7 mm</option>
+          <option value="lines-6">Ruled lines — 6 mm</option>
+          <option value="lines-8">Ruled lines — 8 mm</option>
+          <option value="blank">Blank</option>
+        </select>
+      </div>
+      <button type="submit" id="btn" disabled>Convert</button>
+    </form>
+    <div class="spinner" id="spinner"></div>
+    <div class="status" id="status"></div>
+  </div>
+  <script>
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const btn = document.getElementById("btn");
+    const dropLabel = document.getElementById("dropLabel");
+    const form = document.getElementById("form");
+    const spinner = document.getElementById("spinner");
+    const status = document.getElementById("status");
+
+    dropZone.addEventListener("click", () => fileInput.click());
+    dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.classList.add("dragover"); });
+    dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+    dropZone.addEventListener("drop", e => {
+      e.preventDefault();
+      dropZone.classList.remove("dragover");
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        showFile(e.dataTransfer.files[0]);
+      }
+    });
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files.length) showFile(fileInput.files[0]);
+    });
+
+    function showFile(file) {
+      dropLabel.innerHTML = '<span class="filename">' + file.name + '</span>';
+      btn.disabled = false;
+      status.textContent = "";
+    }
+
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      btn.disabled = true;
+      spinner.style.display = "block";
+      status.textContent = "Converting...";
+      try {
+        const data = new FormData(form);
+        const resp = await fetch("/convert", { method: "POST", body: data });
+        if (!resp.ok) {
+          status.textContent = "Error: " + (await resp.text());
+          return;
+        }
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        const cd = resp.headers.get("Content-Disposition") || "";
+        const match = cd.match(/filename="?([^";\n]+)"?/);
+        a.download = match ? match[1].trim() : "notes.pdf";
+        a.href = url;
+        a.click();
+        URL.revokeObjectURL(url);
+        status.textContent = "Done! Your file has been downloaded.";
+      } catch (err) {
+        status.textContent = "Something went wrong: " + err.message;
+      } finally {
+        spinner.style.display = "none";
+        btn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
