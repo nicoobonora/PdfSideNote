@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PDF Side Note</title>
+  <title>PDF Side Note — Add Note Space to Your PDF Slides</title>
+  <meta name="description" content="Free online tool to convert PDF lecture slides into printable study notes with grid or ruled note space beside each slide.">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7496120396706413"
     crossorigin="anonymous"></script>
   <style>
@@ -11,30 +12,66 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background: #f5f5f7;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
       color: #1d1d1f;
+      line-height: 1.6;
     }
-    .ad-banner {
-      max-width: 480px;
-      width: 100%;
-      margin-top: 24px;
+
+    /* --- Nav --- */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+    }
+    .nav-brand {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1d1d1f;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      font-size: 14px;
+      color: #6e6e73;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #0071e3; }
+
+    /* --- Hero / Tool --- */
+    .hero {
       text-align: center;
+      padding: 64px 24px 48px;
     }
-    .container {
+    .hero h1 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
+    .hero .tagline {
+      font-size: 18px;
+      color: #6e6e73;
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+
+    /* --- Tool card --- */
+    .tool-card {
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.08);
       padding: 48px;
       max-width: 480px;
       width: 100%;
+      margin: 0 auto;
       text-align: center;
     }
-    h1 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
-    p.sub { color: #6e6e73; font-size: 14px; margin-bottom: 32px; }
     .drop-zone {
       border: 2px dashed #d2d2d7;
       border-radius: 12px;
@@ -87,7 +124,7 @@
       outline: none;
       border-color: #0071e3;
     }
-    button {
+    .tool-card button {
       background: #0071e3;
       color: #fff;
       border: none;
@@ -99,8 +136,8 @@
       width: 100%;
       transition: background 0.2s;
     }
-    button:hover { background: #0062cc; }
-    button:disabled { background: #d2d2d7; cursor: not-allowed; }
+    .tool-card button:hover { background: #0062cc; }
+    .tool-card button:disabled { background: #d2d2d7; cursor: not-allowed; }
     .spinner {
       display: none;
       margin: 16px auto 0;
@@ -117,36 +154,242 @@
       color: #6e6e73;
       min-height: 20px;
     }
+
+    /* --- Ad banner --- */
+    .ad-banner {
+      max-width: 728px;
+      width: 100%;
+      margin: 32px auto;
+      text-align: center;
+    }
+
+    /* --- Content sections --- */
+    section {
+      padding: 64px 24px;
+    }
+    section:nth-child(even) {
+      background: #fff;
+    }
+    .section-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .section-inner h2 {
+      font-size: 28px;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* --- How it works --- */
+    .steps {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .steps li {
+      flex: 1;
+      text-align: center;
+    }
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px; height: 48px;
+      background: #0071e3;
+      color: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      border-radius: 50%;
+      margin-bottom: 16px;
+    }
+    .steps h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .steps p {
+      font-size: 14px;
+      color: #6e6e73;
+    }
+
+    /* --- Features --- */
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .feature {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .feature-icon {
+      flex-shrink: 0;
+      width: 40px; height: 40px;
+      background: #f0f5ff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .feature h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .feature p {
+      font-size: 14px;
+      color: #6e6e73;
+    }
+
+    /* --- Use cases --- */
+    .use-cases {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+    }
+    .use-case {
+      background: #f5f5f7;
+      border-radius: 12px;
+      padding: 28px 24px;
+      text-align: center;
+    }
+    section:nth-child(even) .use-case {
+      background: #f5f5f7;
+    }
+    .use-case-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .use-case h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .use-case p {
+      font-size: 14px;
+      color: #6e6e73;
+    }
+
+    /* --- FAQ --- */
+    .faq-list { list-style: none; }
+    .faq-list li {
+      border-bottom: 1px solid #e5e5e5;
+      padding: 20px 0;
+    }
+    .faq-list li:last-child { border-bottom: none; }
+    .faq-q {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-q::after {
+      content: "+";
+      font-size: 20px;
+      color: #6e6e73;
+      transition: transform 0.2s;
+    }
+    .faq-q.open::after {
+      transform: rotate(45deg);
+    }
+    .faq-a {
+      font-size: 14px;
+      color: #6e6e73;
+      display: none;
+    }
+    .faq-a.open { display: block; }
+
+    /* --- Footer --- */
+    footer {
+      background: #1d1d1f;
+      color: #a1a1a6;
+      font-size: 13px;
+      padding: 40px 24px;
+    }
+    .footer-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+    .footer-links a {
+      color: #a1a1a6;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #fff; }
+
+    /* --- Responsive --- */
+    @media (max-width: 700px) {
+      .hero h1 { font-size: 28px; }
+      .steps { flex-direction: column; gap: 24px; }
+      .features { grid-template-columns: 1fr; }
+      .use-cases { grid-template-columns: 1fr; }
+      .tool-card { padding: 32px 24px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>PDF Side Note</h1>
-    <p class="sub">Upload a PDF to get a version with grid note space beside each slide.</p>
-    <form id="form" action="/convert" method="post" enctype="multipart/form-data">
-      <div class="drop-zone" id="dropZone">
-        <div class="icon">&#128196;</div>
-        <div class="label" id="dropLabel">Drop a PDF here or click to browse</div>
-      </div>
-      <input type="file" name="pdf" id="fileInput" accept=".pdf">
-      <div class="option-group">
-        <label for="gridStyle">Note style</label>
-        <select name="grid_style" id="gridStyle">
-          <option value="grid-5">Square grid — 5 mm</option>
-          <option value="grid-4">Square grid — 4 mm</option>
-          <option value="grid-3">Square grid — 3 mm</option>
-          <option value="grid-7">Square grid — 7 mm</option>
-          <option value="lines-7">Ruled lines — 7 mm</option>
-          <option value="lines-6">Ruled lines — 6 mm</option>
-          <option value="lines-8">Ruled lines — 8 mm</option>
-          <option value="blank">Blank</option>
-        </select>
-      </div>
-      <button type="submit" id="btn" disabled>Convert</button>
-    </form>
-    <div class="spinner" id="spinner"></div>
-    <div class="status" id="status"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">PDF Side Note</a>
+      <ul class="nav-links">
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#use-cases">Use Cases</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero + Tool -->
+  <div class="hero">
+    <h1>Add Note Space to Your PDF Slides</h1>
+    <p class="tagline">Upload any lecture or presentation PDF and instantly get a printable version with ruled or grid note space beside every slide — perfect for studying, annotating, and reviewing.</p>
+
+    <div class="tool-card">
+      <form id="form" action="/convert" method="post" enctype="multipart/form-data">
+        <div class="drop-zone" id="dropZone">
+          <div class="icon">&#128196;</div>
+          <div class="label" id="dropLabel">Drop a PDF here or click to browse</div>
+        </div>
+        <input type="file" name="pdf" id="fileInput" accept=".pdf">
+        <div class="option-group">
+          <label for="gridStyle">Note style</label>
+          <select name="grid_style" id="gridStyle">
+            <option value="grid-5">Square grid — 5 mm</option>
+            <option value="grid-4">Square grid — 4 mm</option>
+            <option value="grid-3">Square grid — 3 mm</option>
+            <option value="grid-7">Square grid — 7 mm</option>
+            <option value="lines-7">Ruled lines — 7 mm</option>
+            <option value="lines-6">Ruled lines — 6 mm</option>
+            <option value="lines-8">Ruled lines — 8 mm</option>
+            <option value="blank">Blank</option>
+          </select>
+        </div>
+        <button type="submit" id="btn" disabled>Convert</button>
+      </form>
+      <div class="spinner" id="spinner"></div>
+      <div class="status" id="status"></div>
+    </div>
   </div>
+
+  <!-- Ad banner -->
   <div class="ad-banner">
     <ins class="adsbygoogle"
       style="display:block"
@@ -156,6 +399,156 @@
       data-full-width-responsive="true"></ins>
     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
+
+  <!-- How It Works -->
+  <section id="how-it-works">
+    <div class="section-inner">
+      <h2>How It Works</h2>
+      <ul class="steps">
+        <li>
+          <div class="step-num">1</div>
+          <h3>Upload Your PDF</h3>
+          <p>Drag and drop your lecture slides or presentation PDF into the tool. We accept files up to 100 MB.</p>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <h3>Choose Your Style</h3>
+          <p>Pick from square grids, ruled lines at various spacings, or blank space — whatever suits your note-taking style.</p>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <h3>Download &amp; Print</h3>
+          <p>Your new PDF is generated in seconds. Each page shows your original slide on the left and note space on the right, ready to print.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="section-inner">
+      <h2>Features</h2>
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon">&#9998;</div>
+          <div>
+            <h3>Multiple Note Styles</h3>
+            <p>Choose between square grids (3–7 mm), ruled lines (6–8 mm), or blank note areas to match your handwriting and preferences.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">&#128196;</div>
+          <div>
+            <h3>Landscape A4 Output</h3>
+            <p>Every page is formatted as landscape A4 with your slide on the left half and note space on the right — optimized for print.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">&#128274;</div>
+          <div>
+            <h3>Privacy First</h3>
+            <p>Your files are processed on the server and never stored. Uploads are deleted immediately after conversion completes.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">&#9889;</div>
+          <div>
+            <h3>Fast Conversion</h3>
+            <p>Even large presentations with hundreds of slides are converted in seconds thanks to efficient PDF processing.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">&#128241;</div>
+          <div>
+            <h3>Works on Any Device</h3>
+            <p>Use the tool from your laptop, tablet, or phone. No software installation required — it all runs in your browser.</p>
+          </div>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">&#127381;</div>
+          <div>
+            <h3>Completely Free</h3>
+            <p>No sign-up, no watermarks, no limits on the number of conversions. PDF Side Note is free to use for everyone.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Use Cases -->
+  <section id="use-cases">
+    <div class="section-inner">
+      <h2>Who Is This For?</h2>
+      <div class="use-cases">
+        <div class="use-case">
+          <div class="use-case-icon">&#127891;</div>
+          <h3>University Students</h3>
+          <p>Print lecture slides with note space for class. Write key concepts, formulas, and questions right next to each slide during the lecture.</p>
+        </div>
+        <div class="use-case">
+          <div class="use-case-icon">&#128218;</div>
+          <h3>Exam Preparation</h3>
+          <p>Create study sheets that combine your professor's slides with your own summaries and annotations for efficient review sessions.</p>
+        </div>
+        <div class="use-case">
+          <div class="use-case-icon">&#128188;</div>
+          <h3>Business Meetings</h3>
+          <p>Print meeting presentations with space for action items and notes. Share printed handouts with attendees for better engagement.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="section-inner">
+      <h2>Frequently Asked Questions</h2>
+      <ul class="faq-list">
+        <li>
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What file formats are supported?</div>
+          <div class="faq-a">PDF Side Note works exclusively with PDF files. If your slides are in PowerPoint (.pptx) or Keynote format, export them as a PDF first using your presentation software, then upload the resulting PDF here.</div>
+        </li>
+        <li>
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Is there a file size limit?</div>
+          <div class="faq-a">You can upload PDF files up to 100 MB in size. This is more than enough for most lecture slide decks and presentations, even those with high-resolution images.</div>
+        </li>
+        <li>
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What is the difference between grid and ruled lines?</div>
+          <div class="faq-a">Square grids provide a matrix of horizontal and vertical lines, ideal for diagrams, graphs, and structured notes. Ruled lines are horizontal only, similar to a lined notebook, and work best for written text. The spacing option lets you choose how far apart the lines are — smaller values mean finer lines.</div>
+        </li>
+        <li>
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Are my uploaded files stored on the server?</div>
+          <div class="faq-a">No. Your PDF is processed entirely in memory. It is never saved to disk or stored on our servers. Once the converted file is sent back to your browser, all data from your upload is discarded.</div>
+        </li>
+        <li>
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">What paper size is the output?</div>
+          <div class="faq-a">The output is A4 landscape (297 x 210 mm). Each page places your original slide on the left half and the note area on the right half. This layout is optimized for standard A4 printers and works well for binder filing.</div>
+        </li>
+        <li>
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Can I use this on my phone or tablet?</div>
+          <div class="faq-a">Yes. PDF Side Note is fully responsive and works in any modern browser on any device. Simply open the website, upload your file, and the converted PDF will be downloaded to your device.</div>
+        </li>
+        <li>
+          <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Do I need to create an account?</div>
+          <div class="faq-a">No. There is no registration or login required. The tool is completely free and open to everyone with no usage limits or restrictions.</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <span>&copy; 2025 PDF Side Note. All rights reserved.</span>
+      <ul class="footer-links">
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+    </div>
+  </footer>
+
   <script>
     const dropZone = document.getElementById("dropZone");
     const fileInput = document.getElementById("fileInput");
@@ -214,6 +607,17 @@
         spinner.style.display = "none";
         btn.disabled = false;
       }
+    });
+
+    /* Smooth scroll for anchor links */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener("click", e => {
+        const target = document.querySelector(a.getAttribute("href"));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      });
     });
   </script>
 </body>

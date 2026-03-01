@@ -131,6 +131,16 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+
 @app.route("/convert", methods=["POST"])
 def convert():
     if "pdf" not in request.files:

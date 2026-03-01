@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — PDF Side Note</title>
+  <meta name="description" content="Learn about PDF Side Note, a free tool that adds note-taking space beside your PDF lecture slides for better studying.">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      line-height: 1.6;
+    }
+    nav {
+      background: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 52px;
+    }
+    .nav-brand {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1d1d1f;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      font-size: 14px;
+      color: #6e6e73;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #0071e3; }
+    .content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+    .content h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .content h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-top: 36px;
+      margin-bottom: 12px;
+    }
+    .content p {
+      font-size: 15px;
+      color: #3a3a3c;
+      margin-bottom: 16px;
+    }
+    .content a { color: #0071e3; text-decoration: none; }
+    .content a:hover { text-decoration: underline; }
+    .highlight-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin: 32px 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .highlight-box h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .highlight-box ul {
+      list-style: none;
+      font-size: 15px;
+      color: #3a3a3c;
+    }
+    .highlight-box ul li {
+      padding: 6px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+    .highlight-box ul li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 13px;
+      width: 8px;
+      height: 8px;
+      background: #0071e3;
+      border-radius: 50%;
+    }
+    footer {
+      background: #1d1d1f;
+      color: #a1a1a6;
+      font-size: 13px;
+      padding: 40px 24px;
+    }
+    .footer-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-links { display: flex; gap: 20px; list-style: none; }
+    .footer-links a {
+      color: #a1a1a6;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #fff; }
+    @media (max-width: 700px) {
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">PDF Side Note</a>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1>About PDF Side Note</h1>
+
+    <p>PDF Side Note is a free online tool built to solve a simple but common problem: lecture slides are great for learning, but they leave no room for your own notes. Printing slides on their own wastes paper and forces you to keep a separate notebook. Copying slides into a word processor is tedious and time-consuming.</p>
+
+    <p>PDF Side Note takes your presentation PDF and generates a new document where each slide appears on the left side of a landscape A4 page, with structured note space on the right. The result is a clean, print-ready PDF that lets you write your notes directly beside the relevant slide.</p>
+
+    <h2>Why We Built This</h2>
+    <p>As university students, we found ourselves spending time every semester reformatting lecture slides for note-taking. Some professors provide handout-style PDFs, but many don't. We wanted a tool that could convert any slide deck into a note-friendly format in seconds — no software installation, no sign-up, no cost.</p>
+
+    <p>PDF Side Note was built to be the simplest possible solution to this problem. Upload a PDF, pick your preferred note layout, and download the result. That's it.</p>
+
+    <h2>How It Works Under the Hood</h2>
+    <p>When you upload a PDF, our server reads each page and creates a new landscape A4 document. Each original slide is scaled to fit the left half of the page while preserving its aspect ratio. On the right half, a grid or ruled-line overlay is generated at your chosen spacing. The two halves are composited into a single page, and the process repeats for every slide in your file.</p>
+
+    <p>The conversion is powered by <a href="https://pymupdf.readthedocs.io/">PyMuPDF</a> for PDF manipulation and <a href="https://docs.reportlab.com/">ReportLab</a> for generating the note grids. Both are well-established, open-source Python libraries used by thousands of applications worldwide.</p>
+
+    <div class="highlight-box">
+      <h3>Key Principles</h3>
+      <ul>
+        <li>Your files are never stored — processing happens in memory only</li>
+        <li>No account or registration required</li>
+        <li>No watermarks or branding on your output files</li>
+        <li>No limit on the number of conversions</li>
+        <li>Works on any device with a modern web browser</li>
+      </ul>
+    </div>
+
+    <h2>Note Style Options</h2>
+    <p>We offer several note layouts to accommodate different preferences and use cases:</p>
+    <p><strong>Square grid</strong> is available in 3 mm, 4 mm, 5 mm, and 7 mm spacings. Grids are especially useful for subjects that involve diagrams, charts, mathematical notation, or structured layouts. The finer grids (3–4 mm) work well for detailed work, while larger grids (5–7 mm) are better for quick notes and sketches.</p>
+    <p><strong>Ruled lines</strong> come in 6 mm, 7 mm, and 8 mm spacings. These mimic a traditional lined notebook and are ideal for written notes, definitions, and summaries. Choose a spacing that matches your natural handwriting size.</p>
+    <p><strong>Blank</strong> provides an empty note area with no lines or grid, giving you complete freedom for freeform notes, mind maps, or drawings.</p>
+
+    <h2>Contact</h2>
+    <p>Have a question, suggestion, or bug report? We'd love to hear from you. Reach out at <strong>pdfsidenote@gmail.com</strong>.</p>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span>&copy; 2025 PDF Side Note. All rights reserved.</span>
+      <ul class="footer-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
